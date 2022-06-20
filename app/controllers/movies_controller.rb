@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  before_action :set_movie, only: %i[ show edit update destroy ]
+  before_action :set_movie, only: %i[ show edit update destroy favorite ]
   before_action :authenticate_user!, except: [ :index, :show ]
 
   def search
@@ -64,6 +64,20 @@ class MoviesController < ApplicationController
       format.html { redirect_to movies_url, notice: "Movie was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def favorite
+    type = params[:type]
+    if type == "favorite"
+      current_user.favorites << @movie
+      redirect_to movies_url, notice: "You favorited #{@movie.title}"
+    elsif type == "unfavorite"
+      current_user.favorites.delete(@movie)
+      redirect_to movies_url, notice: "You unfavorited #{@movie.title}"
+    else
+      redirect_to movies_url, notice: "Nothing happened."
+    end 
+
   end
 
   private

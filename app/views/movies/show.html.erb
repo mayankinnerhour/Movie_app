@@ -7,6 +7,16 @@
 <div><p>Overall Rating</p><%= @avg_review %></div>
 <em><%= "#{@reviews.count} reviews" %></em>
 
+<div>
+  <p>
+    <% if current_user %>
+      <%= link_to "favorite",   favorite_movie_path(@movie, type: "favorite") %>
+      <%= link_to "unfavorite", favorite_movie_path(@movie, type: "unfavorite") %>
+    <% end %>
+
+  </p>
+</div>
+
 <%= render @movie %>
 
 <div>

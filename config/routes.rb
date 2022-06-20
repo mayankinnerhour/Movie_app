@@ -4,9 +4,11 @@ Rails.application.routes.draw do
   devise_for :users
   
   resources :movies do 
-    collection do
-      get "search"
-    end
+    get :favorite, on: :member
+    get :search, on: :collection
+    # collection do
+    #   get "search"
+    # end
     resources :reviews, except: [ :show, :index ]
   end
 
