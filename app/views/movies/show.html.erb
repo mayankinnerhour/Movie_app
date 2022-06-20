@@ -1,0 +1,34 @@
+<p style="color: green"><%= notice %></p>
+
+<% if @movie.image.attached? %>
+<img src="<%= (url_for(@movie.image)) %>">
+<% end %>
+
+<div><p>Overall Rating</p><%= @avg_review %></div>
+<em><%= "#{@reviews.count} reviews" %></em>
+
+<%= render @movie %>
+
+<div>
+  <h1>Reviews</h1>
+  <h2><%= @movie.title %></h2>
+  <p><%= @movie.description %></p>
+
+  <% if @reviews.blank? %>
+  <h3>Write a first review</h3>
+  <%= link_to "write a review", new_movie_review_path(@movie)%>
+  <% else %>
+  <% @reviews.each do |review|%>
+  <p><%= review.rating %></p>
+  <p><%= review.comment %></p>
+  <% end %>
+  <% end %>
+
+</div>
+<div>
+  <%= link_to "Write a Review", new_movie_review_path(@movie) %> |
+  <%= link_to "Edit this movie", edit_movie_path(@movie) %> |
+  <%= link_to "Back to movies", movies_path %>
+
+  <%= button_to "Destroy this movie", @movie, method: :delete %>
+</div>

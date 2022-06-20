@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
+  root "movies#index"
+  
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  
+  resources :movies do 
+    collection do
+      get "search"
+    end
+    resources :reviews, except: [ :show, :index ]
+  end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+ 
 end

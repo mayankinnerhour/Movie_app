@@ -1,0 +1,6 @@
+<div>
+	<% @movies.each do |movie| %>
+
+		<img src="<%= (url_for(movie.image)) %>">
+	<%end%> 
+</div>
