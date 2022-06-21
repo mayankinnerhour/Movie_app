@@ -1,23 +1,25 @@
 require 'json'
 require 'open-uri'
 
-url = 'http://www.omdbapi.com?apikey=c9feda2c&s=liv&page=3'
-post_ids = URI.open(url).read
-# p post_ids
-posts = JSON.parse(post_ids)
+url = 'http://www.omdbapi.com?apikey=c9feda2c&s=lov&page=3'
+movie_id = URI.open(url).read
+# p movie_id
+movies = JSON.parse(movie_id)
 
-2.times do |index|
-	post_id = posts[index]
-	url_post = 'http://www.omdbapi.com?apikey=c9feda2c&s=liv&page=3'
-	post_info = URI.open(url_post).read
-	post = JSON.parse(post_info)
-	# p post
+5.times do |index|
+	movie_id = movies[index]
+	url_movie = 'http://www.omdbapi.com?apikey=c9feda2c&s=lov&page=3'
+	movie_info = URI.open(url_movie).read
+	movie = JSON.parse(movie_info)
+	# p movie
 	new_movie = Movie.create!(
-		title: post['title'],
-		description: post['genre'],
-		movie_length: post['runtime'],
-		director: post['director'],
-		rating: post['ratings'],
+		title: movie["Search"][index]["Title"],
+		description: movie["Search"][index]["Type"],
+		movie_length: movie["Search"][index]["Runtime"],
+		director: movie["Search"][index]["Director"],
+		rating: movie["Search"][index]["Ratings"],
 		user_id: 1
 		)
+
+	# p new_movie
 end
