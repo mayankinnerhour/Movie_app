@@ -33,6 +33,8 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
 gem "searchkick"
+gem 'open-uri'
+gem 'json', '~> 2.6', '>= 2.6.2'
 
 gem 'elasticsearch', '~> 7.10'
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
