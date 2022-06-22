@@ -37,6 +37,8 @@ gem 'open-uri'
 gem 'json', '~> 2.6', '>= 2.6.2'
 
 gem 'elasticsearch', '~> 7.10'
+gem "slack-notifier"
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 

@@ -18,6 +18,8 @@ movies = JSON.parse(movie_id)
 		movie_length: movie["Search"][index]["Runtime"],
 		director: movie["Search"][index]["Director"],
 		rating: movie["Search"][index]["Ratings"],
+		year: movie["Search"][index]["Year"],
+		imdb_id: movie["Search"][index]["imdbID"],
 		user_id: 1
 		)
 

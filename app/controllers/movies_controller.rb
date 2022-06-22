@@ -1,4 +1,7 @@
 class MoviesController < ApplicationController
+
+  include SlackNotification
+
   before_action :set_movie, only: %i[ show edit update destroy favorite ]
   before_action :authenticate_user!, except: [ :index, :show ]
 
@@ -38,10 +41,15 @@ class MoviesController < ApplicationController
       if @movie.save
         format.html { redirect_to movie_url(@movie), notice: "Movie was successfully created." }
         format.json { render :show, status: :created, location: @movie }
+        message = "A new movie #{@movie.title} has been successfully Added!."
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @movie.errors, status: :unprocessable_entity }
+        message = "A new movie #{@movie.title} has been successfully Added!."
       end
+      slack_data = { message: message }
+      sendNotification(slack_data)
     end
   end
 
@@ -71,12 +79,17 @@ class MoviesController < ApplicationController
     if type == "favorite"
       current_user.favorites << @movie
       redirect_to movies_url, notice: "You favorited #{@movie.title}"
+      message = "A new movie #{@movie.title} has been successfully Added to FAVORITES."
     elsif type == "unfavorite"
       current_user.favorites.delete(@movie)
       redirect_to movies_url, notice: "You unfavorited #{@movie.title}"
+      message = "A new movie #{@movie.title} has been successfully Removed! from FAVORITES."
     else
       redirect_to movies_url, notice: "Nothing happened."
     end 
+
+    slack_data = { message: message }
+    sendNotification(slack_data)
 
   end
 
@@ -86,6 +99,6 @@ class MoviesController < ApplicationController
     end
 
     def movie_params
-      params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image)
+      params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image, :year, :imdb_id)
     end
 end
