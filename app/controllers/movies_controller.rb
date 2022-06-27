@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @movies = Movie.all.by_name(name).old.order(created_at: :desc).paginate(:page => params[:page], :per_page => 10)
   end
 
   def show
@@ -35,6 +35,7 @@ class MoviesController < ApplicationController
   end
 
   def create
+    # Time.zone = movie_params[:time_zone]
     @movie = current_user.movies.build(movie_params)
 
     respond_to do |format|
@@ -48,8 +49,8 @@ class MoviesController < ApplicationController
         format.json { render json: @movie.errors, status: :unprocessable_entity }
         message = "A new movie #{@movie.title} has been successfully Added!."
       end
-      slack_data = { message: message }
-      sendNotification(slack_data)
+      # slack_data = { message: message }
+      # sendNotification(slack_data)
     end
   end
 
@@ -99,6 +100,6 @@ class MoviesController < ApplicationController
     end
 
     def movie_params
-      params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image, :year, :imdb_id)
+      params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image, :year, :imdb_id, :time_zone, :time)
     end
 end
